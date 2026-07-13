@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
-import QtGraphicalEffects 1.15
 
 Item {
   property var session: sessionList.currentIndex
@@ -68,17 +67,12 @@ Item {
           leftMargin: 10
           verticalCenter: parent.verticalCenter
         }
-        Image {
+        IconImage {
           id: settingsIcon
           anchors.fill: parent
           source: Qt.resolvedUrl("../icons/settings.svg")
           sourceSize.width: 14
           sourceSize.height: 14
-          visible: false
-        }
-        ColorOverlay {
-          anchors.fill: settingsIcon
-          source: settingsIcon
           color: sessionButton.hovered || sessionButton.down ? config.textHighlight : config.textDefault
         }
       }
