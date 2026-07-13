@@ -5,6 +5,7 @@ Item {
   property int btnSize: 48
   implicitHeight: powerButton.height
   implicitWidth: powerButton.width
+  visible: sddm.canPowerOff
   Button {
     id: powerButton
     height: btnSize

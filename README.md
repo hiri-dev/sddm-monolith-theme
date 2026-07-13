@@ -1,65 +1,109 @@
-# Monolith SDDM Theme
+# 🏛️ Monolith SDDM Theme
 
-A clean, pixel-perfect, and ultra-minimalist monochrome theme for SDDM.
+A clean, pixel-perfect, and ultra-minimalist monochrome theme for SDDM. Designed with absolute symmetry, clean typography, and a modern layout.
 
-## Features
-- Pure monochrome dark aesthetic
-- Pixel-perfect symmetrical layout
-- Elegant drop-down session selector with monitor icon and keyboard navigation support
-- Smooth, micro-animated active states and border transitions
-- Highly compatible across both X11 and Wayland sessions
+> [!NOTE]
+> This theme is fully compatible with both **X11** and **Wayland** sessions, including GNOME, KDE Plasma, and Hyprland. All legacy rendering bugs and shader crashes under Wayland have been fully fixed.
 
-## Preview
-![Screenshot](preview.png?v=202607132215)
+---
 
-## Installation
+## ✨ Features
+- **Pure Dark Monochrome Aesthetic:** Deep `#060608` background with sleek contrast borders.
+- **Symmetric Architecture:** Perfectly aligned clock, user details, and system controls.
+- **Smart Username Autopopulation:** Falls back to the default system user if the session history is empty.
+- **Robust Session Selector:** Built-in drop-down panel with a custom monitor icon.
+- **Adaptive System Controls:** Power, Reboot, and Sleep buttons automatically show or hide based on your hardware capabilities.
 
-1. Copy the theme directory to the SDDM themes folder:
-   ```bash
-   sudo cp -r sddm-monolith /usr/share/sddm/themes/
-   ```
+---
 
-2. Enable the theme in `/etc/sddm.conf` (or `/etc/sddm.conf.d/theme.conf`):
-   ```ini
-   [Theme]
-   Current=sddm-monolith
-   ```
+## 📸 Preview
+![Theme Screenshot](preview.png?v=202607132215)
 
-## Dependencies
-Ensure the following packages are installed on your system:
+---
 
-### Arch Linux
-- `qt5-quickcontrols2`
-- `qt5-graphicaleffects`
-- `qt5-svg`
+## 🚀 Installation & Setup
 
-### Fedora
-- `qt5-qtquickcontrols2`
-- `qt5-qtgraphicaleffects`
-- `qt5-qtsvg`
+### Step 1: Clone and Copy the Theme
+Copy the theme folder into your system's SDDM themes directory:
+```bash
+sudo cp -r sddm-monolith /usr/share/sddm/themes/
+```
 
-### Debian / Ubuntu
-- `qml-module-qtquick-controls2`
-- `qml-module-qtgraphicaleffects`
-- `qml-module-qtquick-layouts`
+### Step 2: Enable the Theme
+Edit `/etc/sddm.conf` (or create a file like `/etc/sddm.conf.d/theme.conf`):
+```ini
+[Theme]
+Current=sddm-monolith
+```
 
-## Testing the Theme
-You can test the theme without logging out by running the following command:
+---
+
+## 📦 OS-Specific Dependency Guides
+
+To ensure all elements (icons, inputs, layout animations) render correctly, install the dependencies for your distribution:
+
+### 🔹 Arch Linux
+```bash
+sudo pacman -S qt5-quickcontrols2 qt5-graphicaleffects qt5-svg
+```
+
+### 🔹 Fedora
+```bash
+sudo dnf install qt5-qtquickcontrols2 qt5-qtgraphicaleffects qt5-qtsvg
+```
+
+### 🔹 Ubuntu / Debian
+```bash
+sudo apt install qml-module-qtquick-controls2 qml-module-qtgraphicaleffects qml-module-qtquick-layouts qml-module-qtquick-templates2
+```
+
+### 🔹 openSUSE
+```bash
+sudo zypper in libqt5-qtquickcontrols2 libqt5-qtgraphicaleffects libqt5-qtsvg
+```
+
+### 🔹 NixOS
+To package the theme on NixOS, you can add it to your system configuration using this pattern:
+```nix
+environment.systemPackages = [
+  (pkgs.stdenv.mkDerivation {
+    name = "sddm-monolith-theme";
+    src = ./sddm-monolith; # Path to your theme folder
+    installPhase = ''
+      mkdir -p $out/share/sddm/themes/sddm-monolith
+      cp -r * $out/share/sddm/themes/sddm-monolith
+    '';
+  })
+];
+
+services.displayManager.sddm = {
+  enable = true;
+  theme = "sddm-monolith";
+};
+```
+
+---
+
+## 🛠️ Configuration
+You can customize colors, fonts, backgrounds, and the layout by modifying `theme.conf` inside the theme folder:
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `Font` | String | `"Noto Sans"` | Typography family used across the greeter |
+| `FontSize` | Integer | `14` | Font size scaling factor |
+| `ClockEnabled` | Boolean | `"true"` | Toggle the clock display |
+| `ClockPosition` | String | `"center"` | Position of the clock (`left`, `center`, `right`) |
+| `CustomBackground` | Boolean | `"false"` | If `true`, loads your custom background wallpaper |
+| `Background` | String | `"backgrounds/wallpaper.jpg"` | Relative path to custom wallpaper |
+| `bgDark` | Color | `"#060608"` | Panel background color |
+| `bgDefault` | Color | `"#060608"` | Main screen background color |
+| `textDefault` | Color | `"#aaaaac"` | Inactive label/icon color |
+| `textHighlight` | Color | `"#dadadc"` | Active / hovered element color |
+
+---
+
+## 🔍 Diagnostics & Testing
+Test your theme changes directly in your current user session without logging out:
 ```bash
 sddm-greeter --test-mode --theme /usr/share/sddm/themes/sddm-monolith
 ```
-
-## Configuration
-You can customize the theme by editing `theme.conf`:
-
-| Option | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `Font` | String | `"Noto Sans"` | System font family to use |
-| `FontSize` | Integer | `14` | Font size |
-| `ClockEnabled` | Boolean | `"true"` | Toggle the clock display |
-| `ClockPosition` | String | `"center"` | Clock position (`left`, `center`, `right`) |
-| `CustomBackground` | Boolean | `"false"` | Use custom background image |
-| `Background` | String | `"backgrounds/wallpaper.jpg"` | Path to custom background image |
-| `bgDark` / `bgDefault` | Color | `"#060608"` | Background color |
-| `textDefault` | Color | `"#aaaaac"` | Default text and icon color |
-| `textHighlight` | Color | `"#dadadc"` | Highlight/Hover text and icon color |

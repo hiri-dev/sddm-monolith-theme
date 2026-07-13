@@ -5,6 +5,7 @@ Item {
   property int btnSize: 48
   implicitHeight: sleepButton.height
   implicitWidth: sleepButton.width
+  visible: sddm.canSuspend
   Button {
     id: sleepButton
     height: btnSize

@@ -5,6 +5,7 @@ Item {
   property int btnSize: 48
   implicitHeight: rebootButton.height
   implicitWidth: rebootButton.width
+  visible: sddm.canReboot
   Button {
     id: rebootButton
     height: btnSize
