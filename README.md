@@ -10,7 +10,7 @@ A clean, pixel-perfect, and ultra-minimalist monochrome theme for SDDM.
 - Highly compatible across both X11 and Wayland sessions
 
 ## Preview
-![Screenshot](preview.png?v=3)
+![Screenshot](preview.png?v=202607132215)
 
 ## Installation
 
