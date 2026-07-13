@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 
 Item {
+  property int sessionFontSize: 16
   property var session: sessionList.currentIndex
   property string currentSessionName: sessionList.currentItem ? sessionList.currentItem.sessionName : "Session"
   property int hoverCount: 0
@@ -14,7 +15,7 @@ Item {
     model: sessionModel
     delegate: ItemDelegate {
       id: sessionEntry
-      height: 32
+      height: 36
       width: parent.width
       property string sessionName: name
       onHoveredChanged: {
@@ -27,7 +28,7 @@ Item {
       contentItem: Text {
         renderType: Text.NativeRendering
         font.family: config.Font
-        font.pixelSize: config.FontSize
+        font.pixelSize: sessionFontSize
         font.bold: true
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -38,7 +39,7 @@ Item {
         color: sessionEntry.hovered ? config.viewitemBgHovered : (sessionList.currentIndex == index && hoverCount <= 0 ? config.viewitemBgPressed : "transparent")
         border.color: sessionEntry.hovered ? config.viewitemBorderHovered : (sessionList.currentIndex == index && hoverCount <= 0 ? config.viewitemBorderPressed : "transparent")
         border.width: 1
-        radius: 4
+        radius: 10
         Behavior on color {
           ColorAnimation { duration: 150 }
         }
@@ -60,20 +61,20 @@ Item {
     contentItem: Item {
       Item {
         id: iconWrapper
-        width: 14
-        height: 14
+        width: 16
+        height: 16
         anchors {
           left: parent.left
           leftMargin: 10
           verticalCenter: parent.verticalCenter
         }
-        IconImage {
-          id: settingsIcon
+        Image {
+          id: sessionIcon
           anchors.fill: parent
-          source: Qt.resolvedUrl("../icons/settings.svg")
-          sourceSize.width: 14
-          sourceSize.height: 14
-          color: sessionButton.hovered || sessionButton.down ? config.textHighlight : config.textDefault
+          source: Qt.resolvedUrl("../icons/session.svg")
+          sourceSize.width: 16
+          sourceSize.height: 16
+          opacity: sessionButton.hovered || sessionButton.down ? 1.0 : 0.85
         }
       }
       Text {
@@ -81,7 +82,7 @@ Item {
         text: currentSessionName
         color: sessionButton.hovered || sessionButton.down ? config.textHighlight : config.textDefault
         font.family: config.Font
-        font.pixelSize: config.FontSize
+        font.pixelSize: sessionFontSize
         font.bold: true
         anchors {
           left: iconWrapper.right
@@ -106,7 +107,7 @@ Item {
       color: config.buttonBgNormal
       border.color: config.buttonBorderNormal
       border.width: 1
-      radius: 8
+      radius: 10
       opacity: config.opacityDefault
       Behavior on color {
         ColorAnimation { duration: 200 }
@@ -163,7 +164,7 @@ Item {
       color: config.buttonBgNormal
       border.color: config.buttonBorderNormal
       border.width: 1
-      radius: 8
+      radius: 10
     }
     contentItem: ListView {
       id: sessionList
