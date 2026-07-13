@@ -5,6 +5,7 @@ TextField {
   id: userField
   property int fieldFontSize: 16
   property int fieldRadius: 10
+  property string defaultUser: ""
   selectByMouse: true
   echoMode: TextInput.Normal
   selectionColor: config.textDefault
@@ -20,7 +21,19 @@ TextField {
   horizontalAlignment: Text.AlignHLeft
   placeholderText: "Username"
   placeholderTextColor: config.textPlaceholder
-  text: userModel.lastUser ? userModel.lastUser : ""
+  text: userModel.lastUser ? userModel.lastUser : defaultUser
+
+  Repeater {
+    model: userModel
+    delegate: Item {
+      Component.onCompleted: {
+        var targetIndex = (userModel.lastIndex >= 0 && userModel.lastIndex < userModel.count) ? userModel.lastIndex : 0;
+        if (index === targetIndex) {
+          userField.defaultUser = name;
+        }
+      }
+    }
+  }
   background: Rectangle {
     id: userFieldBackground
     color: config.lineeditBgNormal
