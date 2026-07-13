@@ -7,6 +7,7 @@ Item {
   id: root
   height: Screen.height
   width: Screen.width
+
   Rectangle {
     id: background
     anchors.fill: parent
@@ -14,6 +15,7 @@ Item {
     color: config.bgDefault
     focus: true
   }
+
   Image {
     id: backgroundImage
     anchors.fill: parent
@@ -26,6 +28,7 @@ Item {
     mipmap: true
     clip: true
   }
+
   MouseArea {
     id: backgroundClickArea
     anchors.fill: parent
@@ -34,6 +37,7 @@ Item {
       background.forceActiveFocus()
     }
   }
+
   Item {
     id: mainPanel
     z: 3
@@ -41,15 +45,46 @@ Item {
       fill: parent
       leftMargin: Screen.width * 0.02
       rightMargin: Screen.width * 0.02
-      bottomMargin: Screen.height * 0.02
     }
+
     Clock {
-      id: time
+      id: clockItem
       visible: config.ClockEnabled == "true" ? true : false
+      anchors.top: parent.top
+      anchors.topMargin: Screen.height * 0.10
+      anchors.horizontalCenter: config.ClockPosition == "left" ? undefined : (config.ClockPosition == "right" ? undefined : parent.horizontalCenter)
+      anchors.left: config.ClockPosition == "left" ? parent.left : undefined
+      anchors.right: config.ClockPosition == "right" ? parent.right : undefined
     }
+
+    Row {
+      id: powerRow
+      anchors.bottom: parent.bottom
+      anchors.bottomMargin: Screen.height * 0.04
+      anchors.horizontalCenter: parent.horizontalCenter
+      spacing: 12
+      z: 5
+
+      PowerButton {
+        id: powerButton
+        btnSize: 40
+      }
+      RebootButton {
+        id: rebootButton
+        btnSize: 40
+      }
+      SleepButton {
+        id: sleepButton
+        btnSize: 40
+      }
+    }
+
     LoginPanel {
       id: loginPanel
-      anchors.fill: parent
+      anchors.top: clockItem.visible ? clockItem.bottom : parent.top
+      anchors.bottom: powerRow.top
+      anchors.left: parent.left
+      anchors.right: parent.right
     }
   }
 }

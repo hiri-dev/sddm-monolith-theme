@@ -1,86 +1,84 @@
 import QtQuick 2.15
-import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 
 Item {
   property var user: userField.text
   property var password: passwordField.text
   property var session: sessionPanel.session
-  property var inputHeight: 144
-  property var inputWidth: 256
+
+  readonly property int fieldHeight: 34
+  readonly property int panelWidth: 280
+  readonly property int uiFontSize: 13
+  readonly property int fieldRadius: 9
+  readonly property int columnSpacing: 8
+
+  opacity: 0
+
+  NumberAnimation on opacity {
+    from: 0
+    to: 1
+    duration: 700
+    easing.type: Easing.OutCubic
+    running: true
+  }
 
   Rectangle {
     id: loginBackground
-    anchors {
-      verticalCenter: parent.verticalCenter
-      horizontalCenter: parent.horizontalCenter
-    }
-    height: inputHeight * 1.5
-    width: inputWidth * 1.5
-    radius: 12
+    anchors.centerIn: parent
+    width: panelWidth + 48
+    height: column.implicitHeight + 48
+    radius: 16
     visible: config.LoginBackground == "true" ? true : false
     color: config.bgDark
     opacity: config.opacityPanel
   }
 
-  Row {
-    spacing: 16
-    anchors {
-      bottom: parent.bottom
-      horizontalCenter: parent.horizontalCenter
-    }
-    z: 5
-    PowerButton {
-      id: powerButton
-    }
-    RebootButton {
-      id: rebootButton
-    }
-    SleepButton {
-      id: sleepButton
-    }
-  }
-
   Column {
     id: column
-    spacing: 12
+    spacing: columnSpacing
     z: 5
-    width: inputWidth
-    anchors {
-      verticalCenter: parent.verticalCenter
-      horizontalCenter: parent.horizontalCenter
-    }
+    width: panelWidth
+    anchors.centerIn: parent
+
     UserField {
       id: userField
-      height: 32
+      height: fieldHeight
       width: parent.width
+      fieldFontSize: uiFontSize
+      fieldRadius: parent.parent.fieldRadius
     }
+
     Row {
       id: row
       spacing: 8
       anchors.horizontalCenter: parent.horizontalCenter
       PasswordField {
         id: passwordField
-        width: inputWidth - loginButton.width - row.spacing
-        height: 32
+        width: panelWidth - loginButton.width - row.spacing
+        height: fieldHeight
+        fieldFontSize: uiFontSize
+        fieldRadius: parent.parent.parent.fieldRadius
         onAccepted: loginButton.clicked()
       }
       Button {
         id: loginButton
-        width: 32
-        height: 32
+        width: fieldHeight
+        height: fieldHeight
         enabled: user != "" && password != "" ? true : false
         hoverEnabled: true
         icon {
           source: Qt.resolvedUrl("../icons/login.svg")
           color: config.textDefault
+          width: 16
+          height: 16
         }
         background: Rectangle {
           id: buttonBackground
           color: config.buttonBgNormal
           border.color: config.buttonBorderNormal
           border.width: 1
-          radius: 8
+          radius: fieldRadius
           opacity: config.opacityDefault
           Behavior on color {
             ColorAnimation { duration: 200 }
@@ -116,11 +114,17 @@ Item {
         }
       }
     }
+
     SessionPanel {
       id: sessionPanel
       width: parent.width
-      height: 32
+      height: fieldHeight
+      sessionFontSize: uiFontSize
     }
+  }
+
+  Component.onCompleted: {
+    passwordField.forceActiveFocus()
   }
 
   Connections {

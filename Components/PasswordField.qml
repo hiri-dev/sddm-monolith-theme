@@ -3,6 +3,8 @@ import QtQuick.Controls 2.15
 
 TextField {
   id: passwordField
+  property int fieldFontSize: 16
+  property int fieldRadius: 10
   focus: true
   selectByMouse: true
   placeholderText: "Password"
@@ -11,10 +13,10 @@ TextField {
   passwordMaskDelay: config.PasswordShowLastLetter
   selectionColor: config.textDefault
   renderType: Text.NativeRendering
-  leftPadding: 12
-  rightPadding: 12
+  leftPadding: 16
+  rightPadding: 16
   font.family: config.Font
-  font.pixelSize: config.FontSize
+  font.pixelSize: fieldFontSize
   font.bold: false
   color: config.textDefault
   horizontalAlignment: TextInput.AlignHLeft
@@ -23,7 +25,7 @@ TextField {
     color: config.lineeditBgNormal
     border.color: config.lineeditBorderNormal
     border.width: 1
-    radius: 8
+    radius: fieldRadius
     opacity: config.opacityDefault
     Behavior on border.color {
       ColorAnimation { duration: 200 }

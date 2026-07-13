@@ -1,36 +1,49 @@
 import QtQuick 2.15
-import SddmComponents 2.0
 
-Loader {
-    id: clockLoader
-    sourceComponent: Clock {
-        id: time
-        color: config.textDefault
-        timeFont.family: config.Font
-        timeFont.pixelSize: 64
-        timeFont.bold: false
-        dateFont.family: config.Font
-        dateFont.pixelSize: 16
+Item {
+  id: clockRoot
+  width: clockColumn.width
+  height: clockColumn.height
+
+  property string timeString: Qt.formatTime(new Date(), "HH:mm")
+  property string dateString: Qt.formatDate(new Date(), "dddd, d MMMM yyyy")
+
+  Timer {
+    interval: 1000
+    running: true
+    repeat: true
+    onTriggered: {
+      clockRoot.timeString = Qt.formatTime(new Date(), "HH:mm")
+      clockRoot.dateString = Qt.formatDate(new Date(), "dddd, d MMMM yyyy")
+    }
+  }
+
+  Column {
+    id: clockColumn
+    spacing: 6
+
+    Text {
+      id: timeText
+      text: clockRoot.timeString
+      color: config.textHighlight
+      font.family: "Inter"
+      font.styleName: "Black"
+      font.pixelSize: 96
+      font.weight: Font.Black
+      font.letterSpacing: -2
+      horizontalAlignment: Text.AlignHCenter
+      anchors.horizontalCenter: parent.horizontalCenter
     }
 
-    anchors {
-        topMargin: parent.height * 0.12
-        top: parent.top
+    Text {
+      id: dateText
+      text: clockRoot.dateString
+      color: config.textDefault
+      font.family: "Inter"
+      font.pixelSize: 17
+      font.weight: Font.Normal
+      font.letterSpacing: 0.5
+      anchors.horizontalCenter: timeText.horizontalCenter
     }
-
-    Component.onCompleted: {
-        switch (config.ClockPosition) {
-            case "left":
-                time.anchors.left = parent.left
-                break
-            case "right":
-                time.anchors.right = parent.right
-                break
-            case "center":
-                time.anchors.horizontalCenter = parent.horizontalCenter
-                break
-            default:
-                console.warn("Unsupported clock position:", config.ClockPosition)
-        }
-    }
+  }
 }

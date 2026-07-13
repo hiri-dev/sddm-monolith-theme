@@ -3,15 +3,17 @@ import QtQuick.Controls 2.15
 
 TextField {
   id: userField
+  property int fieldFontSize: 16
+  property int fieldRadius: 10
   selectByMouse: true
   echoMode: TextInput.Normal
   selectionColor: config.textDefault
   renderType: Text.NativeRendering
-  leftPadding: 12
-  rightPadding: 12
+  leftPadding: 16
+  rightPadding: 16
   font {
     family: config.Font
-    pixelSize: config.FontSize
+    pixelSize: fieldFontSize
     bold: false
   }
   color: config.textDefault
@@ -24,7 +26,7 @@ TextField {
     color: config.lineeditBgNormal
     border.color: config.lineeditBorderNormal
     border.width: 1
-    radius: 8
+    radius: fieldRadius
     opacity: config.opacityDefault
     Behavior on border.color {
       ColorAnimation { duration: 200 }
