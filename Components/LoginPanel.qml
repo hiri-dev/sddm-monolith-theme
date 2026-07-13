@@ -124,7 +124,11 @@ Item {
   }
 
   Component.onCompleted: {
-    passwordField.forceActiveFocus()
+    if (userField.text === "") {
+      userField.forceActiveFocus()
+    } else {
+      passwordField.forceActiveFocus()
+    }
   }
 
   Connections {

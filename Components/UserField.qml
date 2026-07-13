@@ -20,7 +20,7 @@ TextField {
   horizontalAlignment: Text.AlignHLeft
   placeholderText: "Username"
   placeholderTextColor: config.textPlaceholder
-  text: userModel.lastUser
+  text: userModel.lastUser ? userModel.lastUser : ""
   background: Rectangle {
     id: userFieldBackground
     color: config.lineeditBgNormal
