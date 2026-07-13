@@ -17,7 +17,7 @@ A clean, pixel-perfect, and ultra-minimalist monochrome theme for SDDM. Designed
 ---
 
 ## 📸 Preview
-![Theme Screenshot](preview.png?v=202607132215)
+![Theme Screenshot](preview.png?v=202607132223)
 
 ---
 
