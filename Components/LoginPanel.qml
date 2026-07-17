@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import QtGraphicalEffects 1.15
 
 Item {
   property var user: userField.text
@@ -10,7 +11,7 @@ Item {
   readonly property int fieldHeight: 34
   readonly property int panelWidth: 280
   readonly property int uiFontSize: 13
-  readonly property int fieldRadius: 9
+  readonly property int fieldRadius: 12
   readonly property int columnSpacing: 8
 
   opacity: 0
@@ -30,8 +31,34 @@ Item {
     height: column.implicitHeight + 48
     radius: 16
     visible: config.LoginBackground == "true" ? true : false
-    color: config.bgDark
-    opacity: config.opacityPanel
+    color: "transparent"
+
+    LinearGradient {
+      anchors.fill: parent
+      start: Qt.point(0, 0)
+      end: Qt.point(parent.width, parent.height)
+      gradient: Gradient {
+        GradientStop { position: 0.0; color: "#ccffffff" }
+        GradientStop { position: 0.5; color: "#44ffffff" }
+        GradientStop { position: 1.0; color: "#88aaddff" }
+      }
+      layer.enabled: true
+      layer.effect: OpacityMask {
+        maskSource: Rectangle {
+          width: loginBackground.width
+          height: loginBackground.height
+          radius: loginBackground.radius
+        }
+      }
+    }
+
+    Rectangle {
+      anchors.fill: parent
+      anchors.margins: 1
+      radius: loginBackground.radius - 1
+      color: config.bgDark
+      opacity: config.opacityPanel
+    }
   }
 
   Column {
